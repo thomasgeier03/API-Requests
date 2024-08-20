@@ -4,8 +4,6 @@ import base64
 import json
 from datetime import datetime, timedelta
 
-TOKEN_FILE = 'bearer_token.json'
-
 def save_token(token, timestamp):
     with open('api.env', 'r') as file:
         lines = file.readlines()

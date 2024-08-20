@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import SACAccess
 
+
 load_dotenv(dotenv_path='api.env')
 
 # Service-Aufruf und Daten in CSV-Datei speichern

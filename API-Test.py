@@ -15,7 +15,7 @@ def Usersrequest(bearer_token):
         'x-sap-sac-custom-auth': 'true',
         'Authorization': f'Bearer {bearer_token}'
     }
-    conn.request("GET", "/api/v1/scim/Users/THOMASGEIER", headers=headers)
+    conn.request("GET", "/api/v1/scim/Users", headers=headers)
     response = conn.getresponse()
     data = response.read()
 

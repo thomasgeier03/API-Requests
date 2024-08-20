@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 import SACAccess
 
-
+# load environment variables
 load_dotenv(dotenv_path='api.env')
 
 # Service-Aufruf und Daten in CSV-Datei speichern
@@ -34,7 +34,7 @@ def Activitiesrequest(bearer_token):
         'x-sap-sac-custom-auth': 'true',
         'Authorization': f'Bearer {bearer_token}'
     }
-    conn.request("GET", "/api/v1/audit/activities/exportActivities?pageSize=50", headers=headers)
+    conn.request("GET", "/api/v1/audit/activities/exportActivities?pageSize=100", headers=headers)
     response = conn.getresponse()
     data = response.read()
 
@@ -82,19 +82,19 @@ def write_text_to_csv(text_data, csv_filename):
 
 # Example usage in the main function
 def main():
-    SACAccess.get_bearer_token()
-    SACAccess.get_xcsrf_token()
+    bearer_token = SACAccess.get_bearer_token()
+    #SACAccess.get_xcsrf_token()
 
     # Activities Request
-    json_data = Activitiesrequest(os.getenv('bearer_token'))
+    json_data = Activitiesrequest(bearer_token)
     write_text_to_csv(json_data, 'activities.csv')
 
     # Users Request
-    json_data = Usersrequest(os.getenv('bearer_token'))
+    json_data = Usersrequest(bearer_token)
     write_text_to_csv(json.dumps(json_data, indent=4), 'users.csv')
 
     # Stories Request
-    json_data = Storiesrequest(os.getenv('bearer_token'))
+    json_data = Storiesrequest(bearer_token)
     write_text_to_csv(json.dumps(json_data, indent=4), 'stories.csv')
 
 # Run the main function if the script is executed

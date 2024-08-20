@@ -4,23 +4,21 @@ import base64
 import json
 from datetime import datetime, timedelta
 
-def save_token(token, timestamp):
+def save_to_env(key, value):
     with open('api.env', 'r') as file:
         lines = file.readlines()
 
     with open('api.env', 'w') as file:
+        key_written = False
         for line in lines:
-            if line.startswith('bearer_token='):
-                file.write(f'bearer_token={token}\n')
-            elif line.startswith('bearer_timestamp='):
-                file.write(f'bearer_timestamp={timestamp}\n')
+            if line.startswith(f'{key}='):
+                file.write(f'{key}={value}\n')
+                key_written = True
             else:
                 file.write(line)
 
-        if not any(line.startswith('bearer_token=') for line in lines):
-            file.write(f'bearer_token={token}\n')
-        if not any(line.startswith('bearer_timestamp=') for line in lines):
-            file.write(f'bearer_timestamp={timestamp}\n')
+        if not key_written:
+            file.write(f'{key}={value}\n')
 
 def load_token():
     token = None
@@ -37,6 +35,7 @@ def load_token():
 def get_bearer_token():
     token, timestamp = load_token()
     if token and timestamp and datetime.now() - timestamp < timedelta(hours=1):
+        print('Bearer Token loaded')
         return token
     else:
         conn = http.client.HTTPSConnection(f"{os.getenv('SACTokenURL')}")
@@ -52,7 +51,9 @@ def get_bearer_token():
         if response.status == 200:
             bearer_token = json.loads(data.decode("utf-8")).get('access_token')
             os.environ['bearer_token'] = bearer_token
-            save_token(bearer_token, datetime.now().isoformat())
+            save_to_env('bearer_token', token)
+            save_to_env('bearer_timestamp', timestamp)
+            print('Bearer Token saved')
             return bearer_token
         else:
             raise Exception(f"Failed to get bearer token: {response.status} {data.decode('utf-8')}")
@@ -73,6 +74,9 @@ def get_xcsrf_token():
     
     if response.status == 200:
         xcsrf_token = response.getheader('x-csrf-token')
-        os.environ['xcsrf_token'] = xcsrf_token
+        if xcsrf_token:
+            save_to_env('x-csrf-token', xcsrf_token)
+            print('X-CSRF-Token saved')
+            return xcsrf_token
     else:
         raise Exception(f"Failed to get X-CSRF-Token: {response.status} {data.decode('utf-8')}")

@@ -75,7 +75,6 @@ def write_text_to_csv(text_data, csv_filename):
     filepath = os.path.join('output', csv_filename)
     with open(filepath, mode='w', newline='') as file:
         writer = csv.writer(file)
-        
         for line in lines:
             writer.writerow([line])
 

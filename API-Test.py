@@ -26,7 +26,7 @@ def Usersrequest(bearer_token):
     else:
         raise Exception(f"Failed to get data: {response.status} {data.decode('utf-8')}")
 
-    
+
 def Activitiesrequest(bearer_token):
     conn = http.client.HTTPSConnection(f"{os.getenv('SACServiceURL')}")
     headers = {

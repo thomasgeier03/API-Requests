@@ -59,12 +59,11 @@ def get_bearer_token():
 
 # X-CSRF-Token API-Aufruf
 def get_xcsrf_token():
-    bearer_token = get_bearer_token()
     conn = http.client.HTTPSConnection(f"{os.getenv('SACServiceURL')}")
     headers = {
         'x-csrf-token': 'fetch',
         'x-sap-sac-custom-auth': 'true',
-        'Authorization': f'Bearer {bearer_token}'
+        'Authorization': f'Bearer {os.getenv("bearer_token")}'
     }
     
     conn.request("GET", "/api/v1/csrf", headers=headers)

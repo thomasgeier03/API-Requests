@@ -82,7 +82,7 @@ def write_text_to_csv(text_data, csv_filename):
 # Example usage in the main function
 def main():
     bearer_token = SACAccess.get_bearer_token()
-    #SACAccess.get_xcsrf_token()
+    SACAccess.get_xcsrf_token()
 
     # Activities Request
     json_data = Activitiesrequest(bearer_token)

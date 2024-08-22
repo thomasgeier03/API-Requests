@@ -10,7 +10,8 @@ def read_csv_act(file_path):
                 activity = {
                     split[5].replace('"', '').replace('{', '').strip(),
                     split[4].replace('"', '').replace('}', '').strip(),
-                    split[7].replace('"', '').replace('}', '').strip()
+                    split[7].replace('"', '').replace('}', '').strip(),
+                    split[0].replace('"', '').replace('}', '').strip()
                 }
                 result.append(activity)
         return result

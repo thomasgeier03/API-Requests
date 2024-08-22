@@ -50,9 +50,8 @@ def get_bearer_token():
 
         if response.status == 200:
             bearer_token = json.loads(data.decode("utf-8")).get('access_token')
-            os.environ['bearer_token'] = bearer_token
-            save_to_env('bearer_token', token)
-            save_to_env('bearer_timestamp', timestamp)
+            save_to_env('bearer_token', bearer_token)
+            save_to_env('bearer_timestamp', datetime.now().isoformat())
             print('Bearer Token saved')
             return bearer_token
         else:

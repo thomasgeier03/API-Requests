@@ -8,10 +8,9 @@ def read_csv_act(file_path):
             split = row.get('User Activities').split(',')
             if len(split) > 2:
                 activity = {
-                    split[5].replace('"', '').replace('{', '').strip(),
-                    split[4].replace('"', '').replace('}', '').strip(),
-                    split[7].replace('"', '').replace('}', '').strip(),
-                    split[0].replace('"', '').replace('}', '').strip()
+                    split[4].replace('"', '').replace('{', '').strip(),
+                    split[5].replace('"', '').replace('}', '').strip(),
+                    split[7].replace('"', '').replace('}', '').strip()
                 }
                 result.append(activity)
         return result

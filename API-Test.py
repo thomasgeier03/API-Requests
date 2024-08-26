@@ -8,7 +8,7 @@ import SACAccess
 # load environment variables
 load_dotenv(dotenv_path='api.env')
 
-# Service-Aufruf und Daten in CSV-Datei speichern
+# service request to get users
 def Usersrequest(bearer_token):
     conn = http.client.HTTPSConnection(f"{os.getenv('SACServiceURL')}")
     headers = {
@@ -26,7 +26,7 @@ def Usersrequest(bearer_token):
     else:
         raise Exception(f"Failed to get data: {response.status} {data.decode('utf-8')}")
 
-
+# service request to get activities
 def Activitiesrequest(bearer_token):
     conn = http.client.HTTPSConnection(f"{os.getenv('SACServiceURL')}")
     headers = {
@@ -43,6 +43,7 @@ def Activitiesrequest(bearer_token):
     else:
         raise Exception(f"Failed to get data: {response.status} {data.decode('utf-8')}")
     
+# service request to get stories
 def Storiesrequest(bearer_token):
     conn = http.client.HTTPSConnection(f"{os.getenv('SACServiceURL')}")
     headers = {
@@ -58,9 +59,8 @@ def Storiesrequest(bearer_token):
         return json.loads(data.decode("utf-8"))  # Decode and parse the response as JSON
     else:
         raise Exception(f"Failed to get data: {response.status} {data.decode('utf-8')}")
-    
 
-# CSV-Datei schreiben
+# write text data to a CSV file
 def write_text_to_csv(text_data, csv_filename):
     """
     Write plain text data to a CSV file.
